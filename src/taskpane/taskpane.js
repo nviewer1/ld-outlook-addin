@@ -3,21 +3,38 @@
 
   let config;
   let settingsDialog;
+  const requestUrl = 'https://moodhood-api.livedigital.space/v1/';
 
-  Office.initialize = function(reason){
+
+  let auth = 'Bearer ';
+  let token = "";
+
+  // Office.initialize = function(reason){
 
     jQuery(document).ready(function(){
 
-      config = getConfig();
+      $('#save-token-btn').on('click', function(e){
+        e.stopPropagation();
+        // e.preventDefault();
+        console.log('svtkn');
+        token= $('#token-input').val();
 
-      // Check if add-in is configured.
-      if (config && config.gitHubUserName) {
-        // If configured, load the gist list.
-        loadGists(config.gitHubUserName);
-      } else {
-        // Not configured yet.
-        $('#not-configured').show();
-      }
+        $.ajax({
+          url: requestUrl+'users/me',
+          dataType: 'json',
+          headers: {"Authorization": auth+token}
+        }).done(function(gists){
+          // callback(gists);
+          console.log(gists);
+        }).fail(function(error){
+          console.log("err");
+          // callback(null, error);
+        });
+
+
+      });
+
+
 
       // When insert button is selected, build the content
       // and insert into the body.
@@ -62,7 +79,7 @@
         });
       })
     });
-  };
+  // };
 
   function loadGists(user) {
     $('#error-display').hide();
