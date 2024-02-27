@@ -34,7 +34,7 @@
 <body class="ms-font-l ms-landing-page">
  
 
-  <main class="ms-landing-page__main">
+  <main class="u-set u-login ms-landing-page__main">
     <div class="u-row">
       <div class=" col s12">
         <h5>Вы не авторизованы Вам нужно создать персональный токен в разделе "Интеграция" в нужном вам пространстве</h5>
@@ -60,28 +60,43 @@
     <div class="u-row">
       <h5> <a href="https://livedigital.space/urdocs">Политика обработки персональных данных</a></h5>
     </div>
-      <!--
-
-      
-    <section class="ms-landing-page__content ms-font-m ms-fontColor-neutralPrimary">
-      <div id="not-configured" style="display: none;">
-        <div class="centered ms-font-xxl ms-u-textAlignCenter">Welcome!</div>
-        <div class="ms-font-xl" id="settings-prompt">Please choose the <strong>Settings</strong> icon at the bottom of this window to configure this add-in.</div>
-      </div>
-      <div id="gist-list-container" style="display: none;">
-        <form>
-          <div id="gist-list">
-          </div>
-        </form>
-      </div>
-      <div id="error-display" style="display: none;" class="ms-u-borderBase ms-fontColor-error ms-font-m ms-bgColor-error ms-borderColor-error">
-      </div>
-    </section>
-    <button class="ms-Button ms-Button--primary" id="insert-button" tabindex=0 disabled>
-      <span class="ms-Button-label">Insert</span>
-    </button>
--->        
   </main>
+
+
+  <main class="u-set u-loged ms-landing-page__main ">
+
+    <div class="u-row">
+      <div class=" col s12">
+        <div> <a id="user-info-mail" href="#">Not logged</a><button id="logout-token-btn" class="ms-Button  ">
+                                                              <span class="ms-Button-label">Выйти</span>
+                                                            </button>
+        </div>
+      </div>
+    </div>
+    <div class="u-row"> </div>
+
+    <div class="u-row">
+      <button class="ms-Button ms-Button--compound u-width">
+        <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span> 
+        <span class="ms-Button-label">Создать в новой</span> 
+        <span class="ms-Button-description">Встреча будет создана в новой комнате</span> 
+      </button>
+    </div>
+
+    <div class="u-row">
+      <div class="input-field col s12">
+        <button class="ms-Button ms-Button--compound u-width">
+          <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span> 
+          <span class="ms-Button-label">Создать там же </span> 
+          <span class="ms-Button-description">Встреча будет создана в уже существующей комнате</span> 
+        </button>
+      </div>
+    </div>
+
+  </main>
+  
+
+
   <header class="ms-landing-page__footer ms-bgColor-themePrimary">
     <div class="ms-landing-page__footer--left">
       <img src="../../assets/ld-logo.png" />

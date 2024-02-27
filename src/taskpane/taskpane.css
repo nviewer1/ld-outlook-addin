@@ -167,11 +167,31 @@ html, body {
 
     /* *****************************/
 
-    main{
+    main.u-set{
       padding: 40px 20px 40px 20px ;
+      display: none;
+    }
+    main.active{
+      display: flex;
     }
 
     main .u-row{
       margin: 10px 10px 10px 10px ;
     }
 
+    .u-row button.u-width{
+      width: 100%;
+      max-width: 100%;
+    }
+    
+    #user-info-mail{
+      margin-left: 10px;
+      text-decoration: underline;
+      font-size: 16px;
+      font-weight: 500;
+
+    }
+    #logout-token-btn{
+      position: relative;
+      float: right;
+    }

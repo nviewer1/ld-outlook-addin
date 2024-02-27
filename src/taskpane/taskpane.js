@@ -13,6 +13,26 @@
 
     jQuery(document).ready(function(){
 
+      function refresh() {
+        token= localStorage.getItem("token");
+        if(token){
+          console.log('if token - true');
+          let _userInfo = JSON.parse(localStorage.getItem("userInfo"));
+          $('#user-info-mail').text(_userInfo.email)
+          setPage('u-loged');
+        }else{
+          console.log('if token - false');
+          setPage('u-login');
+        }
+      }
+      refresh();
+
+      function setPage(_page){
+        console.log('setPage',_page,$(_page));
+        $('main.u-set').removeClass('active');
+        $('.'+_page).addClass('active');
+      }
+
       $('#save-token-btn').on('click', function(e){
         e.stopPropagation();
         // e.preventDefault();
@@ -23,15 +43,24 @@
           url: requestUrl+'users/me',
           dataType: 'json',
           headers: {"Authorization": auth+token}
-        }).done(function(gists){
+        }).done(function(response){
           // callback(gists);
-          console.log(gists);
+          console.log(response);
+          localStorage.setItem("token",token);
+          localStorage.setItem("userInfo",JSON.stringify(response));
+          refresh();
+
         }).fail(function(error){
           console.log("err");
           // callback(null, error);
         });
-
-
+        
+      });
+      $('#logout-token-btn').on('click', function(e){
+        e.stopPropagation();
+        console.log('logout-token-btn clicked');
+        localStorage.setItem("token","");
+        refresh();
       });
 
 
