@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0" xsi:type="MailApp">
   <Id>ee3bd144-bde6-4057-91d6-d28e1ac7faf2</Id>
-  <Version>1.0.1.0</Version>
-  <ProviderName>Livedigitall</ProviderName>
+  <Version>1.0.3.0</Version>
+  <ProviderName>livedigitall</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="Livedigital addin"/>
-  <Description DefaultValue="Allow create meeting in livedigital"/>
+  <DisplayName DefaultValue="livedigital addin"/>
+  <Description DefaultValue="Allows to create meetings in livedigital / Создавайте встречи в livedigital из календаря Outlook!"/>
   <IconUrl DefaultValue="https://localhost:3000/assets/icon-64.png"/>
   <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-128.png"/>
   <SupportUrl DefaultValue="https://www.livedigital.space/help"/>
@@ -117,11 +117,11 @@
         <bt:Url id="Taskpane.Url" DefaultValue="https://localhost:3000/taskpane.html"/>
       </bt:Urls>
       <bt:ShortStrings>
-      <bt:String id="GroupLabel" DefaultValue="Livedigital meet"/>
-      <bt:String id="TaskpaneButton.Label" DefaultValue="Livedigital meet"/>
+      <bt:String id="GroupLabel" DefaultValue=" livedigital meetings"/>
+      <bt:String id="TaskpaneButton.Label" DefaultValue=" livedigital meetings"/>
       </bt:ShortStrings>
       <bt:LongStrings>
-      <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Livedigital meet"/>
+      <bt:String id="TaskpaneButton.Tooltip" DefaultValue=" livedigital meetings"/>
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>

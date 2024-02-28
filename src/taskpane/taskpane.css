@@ -163,7 +163,11 @@ html, body {
   .ms-landing-page__footer--right--disabled:active, .ms-landing-page__footer--right--disabled:hover {
     background: transparent; }
 
-
+    /* ****************************/
+    .ms-landing-page__footer--left img{
+      width: 100%;
+      height: 60px;
+    }
 
     /* *****************************/
 

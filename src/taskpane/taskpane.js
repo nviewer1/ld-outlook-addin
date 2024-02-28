@@ -9,7 +9,7 @@
   let auth = 'Bearer ';
   let token = "";
 
-  // Office.initialize = function(reason){
+  Office.initialize = function(reason){
 
     jQuery(document).ready(function(){
 
@@ -39,21 +39,25 @@
         console.log('svtkn');
         token= $('#token-input').val();
 
-        $.ajax({
-          url: requestUrl+'users/me',
-          dataType: 'json',
-          headers: {"Authorization": auth+token}
-        }).done(function(response){
-          // callback(gists);
-          console.log(response);
-          localStorage.setItem("token",token);
-          localStorage.setItem("userInfo",JSON.stringify(response));
-          refresh();
+        try {
+          $.ajax({
+            url: requestUrl+'users/me',
+            dataType: 'json',
+            headers: {"Authorization": auth+token}
+          }).done(function(response){
+            // callback(gists);
+            console.log(response);
+            localStorage.setItem("token",token);
+            localStorage.setItem("userInfo",JSON.stringify(response));
+            refresh();
 
-        }).fail(function(error){
-          console.log("err");
-          // callback(null, error);
-        });
+          }).fail(function(error){
+            console.log("err");
+            // callback(null, error);
+          });
+        } catch (error) {
+            
+        }
         
       });
       $('#logout-token-btn').on('click', function(e){
@@ -108,7 +112,7 @@
         });
       })
     });
-  // };
+  };
 
   function loadGists(user) {
     $('#error-display').hide();
