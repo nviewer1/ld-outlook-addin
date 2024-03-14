@@ -8,6 +8,17 @@
 
   let auth = 'Bearer ';
   let token = "";
+  let headers = {
+    
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers":"*",
+    "Access-Control-Allow-Methods": "*",
+    // "Origin": "https://ld-outlook-addin.onrender.com/",
+    "Content-Type": "application/json",
+    "access-control-allow-credentials" : "true" ,
+    "vary": "Origin"
+  };
+    
 
   Office.initialize = function(reason){
 
@@ -53,7 +64,12 @@
           $.ajax({
             url: requestUrl+'users/me',
             dataType: 'json',
-            headers: {"Authorization": auth+token}
+            cors: true ,
+            secure: true,
+            headers: {
+              ...headers,
+              "Authorization": auth + token,
+            },
           }).done(function(response){
             // callback(gists);
             console.log(response);
@@ -63,7 +79,12 @@
             $.ajax({
               url: requestUrl+'users/me/settings/meetings',
               dataType: 'json',
-              headers: {"Authorization": auth+token}
+              cors: true ,
+              secure: true,              
+              headers: {
+                ...headers,
+                "Authorization": auth + token,
+              },
             }).done(function(response){
               // callback(gists);
               console.log(response);
@@ -115,9 +136,13 @@
             try {
               $.ajax({
                 url: requestUrl+'spaces/'+_spaceid+'/rooms',
-                method:"POST",
-                
-                headers: {"Authorization": auth+token,"Content-Type":"application/json"},
+                method: "POST",
+                cors: true ,
+                secure: true,                
+                headers: {
+                  ...headers,
+                  "Authorization": auth + token,
+                },
                 data:JSON.stringify(_event_info)
               }).done(function(response){
                 // callback(gists);
@@ -156,7 +181,12 @@
           $.ajax({
             url: requestUrl + 'spaces/',
             method: "GET",
-            headers: { "Authorization": auth + token, "Content-Type": "application/json" },
+            cors: true ,
+            secure: true,            
+            headers: {
+              ...headers,
+              "Authorization": auth + token,
+            },
           }).done(function (response) {
             console.log(response);
             let _optionsList = ''
@@ -175,7 +205,12 @@
           $.ajax({
             url: requestUrl + 'spaces/' + _spaceid + '/rooms',
             method: "GET",
-            headers: { "Authorization": auth + token, "Content-Type": "application/json" },
+            cors: true ,
+            secure: true,            
+            headers: {
+              ...headers,
+              "Authorization": auth + token,
+            },
           }).done(function (response) {
             console.log(response);
             let _optionsList = ''
@@ -202,8 +237,13 @@
         _space_settings['roomId'] = $('#rooms-select').val();
         $.ajax({
           url: requestUrl+'users/me/settings/meetings',
-          method:"PUT",
-          headers: {"Authorization": auth+token,"Content-Type":"application/json"},
+          method: "PUT",
+          cors: true ,
+          secure: true,          
+          headers: {
+            ...headers,
+            "Authorization": auth + token,
+          },
           data:JSON.stringify(_space_settings)
         }).done(function(response){
           console.log(response);
@@ -221,7 +261,12 @@
         $.ajax({
           url: requestUrl + 'spaces/' + _spaceid + '/rooms',
           method: "GET",
-          headers: { "Authorization": auth + token, "Content-Type": "application/json" },
+          cors: true ,
+          secure: true,          
+          headers: {
+            ...headers,
+            "Authorization": auth + token,
+          },
         }).done(function (response) {
           console.log(response);
           let _optionsList = ''
