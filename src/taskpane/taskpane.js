@@ -60,6 +60,16 @@
             localStorage.setItem("token",token);
             localStorage.setItem("userInfo",JSON.stringify(response));
             refresh();
+            $.ajax({
+              url: requestUrl+'users/me/settings/meetings',
+              dataType: 'json',
+              headers: {"Authorization": auth+token}
+            }).done(function(response){
+              // callback(gists);
+              console.log(response);
+              localStorage.setItem("roomid",response.roomId);
+              localStorage.setItem("spaceid",response.spaceId);
+            });
 
           }).fail(function(error){
             console.log("err");
@@ -81,100 +91,185 @@
       $('#create-in-new-room-btn').on('click', function(e){
         e.stopPropagation();
         console.log('create-in-new-room-btn clicked');
+        let _event_info = {};
+        let _roomid = localStorage.getItem("roomid");
+        let _spaceid =localStorage.getItem("spaceid")
+        token= localStorage.getItem("token");
+        console.log('roomid/spaceid = ', _roomid + '/' + _spaceid);
+        Office.context.mailbox.item.start.getAsync((result) => {
+            if (result.status !== Office.AsyncResultStatus.Succeeded) {
+              console.error(`Action failed with message ${result.error.message}`);
+              return;
+            }
+            console.log(`Appointment starts: ${result.value.getUTCDay()}-${result.value.getUTCMonth()+1}-${result.value.getUTCFullYear()} `);
 
-        Office.context.mailbox.item.subject.setAsync("<a href='https://whoer.net' target='_blank'>Some link</a>",
+            _event_info = {
+              "name": `Встреча Outlook ${result.value.getUTCDate()}-${result.value.getUTCMonth()+1}-${result.value.getUTCFullYear()}`,
+              "isPublic": true,
+              "isScreensharingAllowed": true,
+              "isChatAllowed": true,
+              "type": "lesson"
+            };
+
+
+            try {
+              $.ajax({
+                url: requestUrl+'spaces/'+_spaceid+'/rooms',
+                method:"POST",
+                
+                headers: {"Authorization": auth+token,"Content-Type":"application/json"},
+                data:JSON.stringify(_event_info)
+              }).done(function(response){
+                // callback(gists);
+                console.log(response);
+                setLabelsForEvent(response.name,response.alias);
+
+                Office.context.mailbox.item.notificationMessages.replaceAsync("ActionPerformanceNotification", 
+                {
+                  type: Office.MailboxEnums.ItemNotificationMessageType.InformationalMessage,
+                  message: "Мероприятие добавлено",
+                  icon: "Icon.80x80",
+                  persistent: true,
+                });
+                
+                // refresh();
+              }).fail(function(error){
+                console.log("err",error);
+                // callback(null, error);
+              });
+            } catch (error) {
+                
+            }
+        });  
+        // refresh();
+      });
+
+      $('#create-in-recent-room-btn').on('click',  function(e){
+        let val = '';
+        console.log('val=', val);
+        if (!$('#custom-room-block').hasClass('closed')) {
+          $('#custom-room-block').addClass('closed')
+        } else {
+          let _spaceid = localStorage.getItem("spaceid")
+          $('#spaces-select')[0].innerHTML = "";
+          // fabricRefresh();
+          $.ajax({
+            url: requestUrl + 'spaces/',
+            method: "GET",
+            headers: { "Authorization": auth + token, "Content-Type": "application/json" },
+          }).done(function (response) {
+            console.log(response);
+            let _optionsList = ''
+            let _spacesArray = response.items;
+            for (let i = 0; i < _spacesArray.length; i++) {
+              _optionsList += `<option value="${_spacesArray[i].id}">${_spacesArray[i].name}</option>`;
+            }
+            console.log("_optionsList", _optionsList, $('#spaces-select')[0]);
+            $('#spaces-select')[0].innerHTML = _optionsList;
+
+            $('#custom-room-block').removeClass('closed');
+          }).fail(function (error) {
+            console.log("err", error);
+          });
+
+          $.ajax({
+            url: requestUrl + 'spaces/' + _spaceid + '/rooms',
+            method: "GET",
+            headers: { "Authorization": auth + token, "Content-Type": "application/json" },
+          }).done(function (response) {
+            console.log(response);
+            let _optionsList = ''
+            let _roomsArray = response.items;
+            for (let i = 0; i < _roomsArray.length; i++) {
+              _optionsList += `<option value="${_roomsArray[i].id}" room-alias="${_roomsArray[i].alias}">
+              ${_roomsArray[i].name}</option>`;
+            }
+            console.log("_optionsList", _optionsList, $('#rooms-select')[0]);
+            $('#rooms-select')[0].innerHTML = _optionsList;
+          }).fail(function (error) {
+            console.log("err", error);
+          });
+        }
+      });
+      
+
+      $('#choose-in-recent-room-btn').on('click', function (e) {
+        let _subject = $("#rooms-select :selected").text().trim();
+        let _alias = $("#rooms-select :selected").attr('room-alias');
+        setLabelsForEvent(_subject, _alias);
+        let _space_settings = {}
+        _space_settings['spaceId'] = $('#spaces-select').val();
+        _space_settings['roomId'] = $('#rooms-select').val();
+        $.ajax({
+          url: requestUrl+'users/me/settings/meetings',
+          method:"PUT",
+          headers: {"Authorization": auth+token,"Content-Type":"application/json"},
+          data:JSON.stringify(_space_settings)
+        }).done(function(response){
+          console.log(response);
+          // refresh();
+        }).fail(function(error){
+          console.log("err",error);
+          // callback(null, error);
+        });         
+
+      });
+      $('#spaces-select').on('change', function (e) {
+        let val = '';
+        console.log('val=', val);
+        let _spaceid = $('#spaces-select').val();
+        $.ajax({
+          url: requestUrl + 'spaces/' + _spaceid + '/rooms',
+          method: "GET",
+          headers: { "Authorization": auth + token, "Content-Type": "application/json" },
+        }).done(function (response) {
+          console.log(response);
+          let _optionsList = ''
+          let _roomsArray = response.items;
+          for (let i = 0; i < _roomsArray.length; i++) {
+            _optionsList += `<option value="${_roomsArray[i].id}" room-alias="${_roomsArray[i].alias}">
+            ${_roomsArray[i].name}</option>`;
+          }
+          console.log("_optionsList", _optionsList, $('#rooms-select')[0]);
+          $('#rooms-select')[0].innerHTML = _optionsList;
+        }).fail(function (error) {
+          console.log("err", error);
+        });
+
+       
+        
+      });
+
+      function setLabelsForEvent(_subject,_alias) {
+        let body = `<a href="https://edu.livedigital.space/room/${_alias}" target="_blank"> Ссылка на мероприяте ${_subject}</a>`
+        Office.context.mailbox.item.subject.setAsync(_subject,
         { coercionType: "html", },
           function (asyncResult) {
-            if (asyncResult.status ==
-                Office.AsyncResultStatus.Failed) {
+            if (asyncResult.status == Office.AsyncResultStatus.Failed) {
                 write(asyncResult.error.message);
             }
           }
         );
 
-        // Office.context.mailbox.item.location.setAsync("https://whoer.net",
-        //   { coercionType: "html", },
-        //   function (asyncResult) {
-        //       if (asyncResult.status ==
-        //           Office.AsyncResultStatus.Failed) {
-        //           write(asyncResult.error.message);
-        //       }
-        //   }
-        // );
-        const locations = [
-          {
-            id: "Contoso",
-            type: Office.MailboxEnums.LocationType.Custom,
-            phone: '7988'
-          }
-
-        ];
-        Office.context.mailbox.item.enhancedLocation.addAsync(locations, (result) => {
+ 
+        Office.context.mailbox.item.location.setAsync('https://edu.livedigital.space/room/'+_alias, (result) => {
           if (result.status === Office.AsyncResultStatus.Succeeded) {
-            console.log(`Successfully added locations ${JSON.stringify(locations)}`);
+            console.log(`Successfully added _alias ${JSON.stringify(_alias)}`);
           } else {
             console.error(`Failed to add locations. Error message: ${result.error.message}`);
           }
         });        
-        Office.context.mailbox.item.body.setAsync("<a href='https://whoer.net' target='_blank'> Мероприятие</a>",
+        Office.context.mailbox.item.body.setAsync(body,
           { coercionType: "html", },
           function (asyncResult) {
-              if (asyncResult.status ==
-                  Office.AsyncResultStatus.Failed) {
+              if (asyncResult.status == Office.AsyncResultStatus.Failed) {
                   write(asyncResult.error.message);
               }
           }
         );
+      }
 
 
-        refresh();
-      });
-
-      $('#create-in-recent-room-btn').on('click', function(e){
-       
-
-      });      
-
-    //   function setLabelsForEvent() {
-    //     Office.context.mailbox.item.body.setAsync(
-    //         "Hello world!",
-    //         {
-    //             coercionType: "html", // Write text as HTML
-    //         },
-
-    //         // Callback method to check that setAsync succeeded
-    //         function (asyncResult) {
-    //             if (asyncResult.status ==
-    //                 Office.AsyncResultStatus.Failed) {
-    //                 write(asyncResult.error.message);
-    //             }
-    //         }
-    //     );
-    // }
-
-      // When insert button is selected, build the content
-      // and insert into the body.
-      $('#insert-button').on('click', function(){
-        const gistId = $('.ms-ListItem.is-selected').val();
-        getGist(gistId, function(gist, error) {
-          if (gist) {
-            buildBodyContent(gist, function (content, error) {
-              if (content) {
-                Office.context.mailbox.item.body.setSelectedDataAsync(content,
-                  {coercionType: Office.CoercionType.Html}, function(result) {
-                    if (result.status === Office.AsyncResultStatus.Failed) {
-                      showError('Could not insert gist: ' + result.error.message);
-                    }
-                });
-              } else {
-                showError('Could not create insertable content: ' + error);
-              }
-            });
-          } else {
-            showError('Could not retrieve gist: ' + error);
-          }
-        });
-      });
 
       // When the settings icon is selected, open the settings dialog.
       $('#settings-icon').on('click', function(){
@@ -194,8 +289,8 @@
           settingsDialog.addEventHandler(Office.EventType.DialogEventReceived, dialogClosed);
         });
       })
-    });
-  };
+    }); //jQuery(document).ready
+  }; //Office.initialize
 
   function loadGists(user) {
     $('#error-display').hide();

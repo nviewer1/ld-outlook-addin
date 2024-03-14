@@ -66,14 +66,14 @@
             </OfficeTab>
           </ExtensionPoint>          
           <!-- Message Compose -->
-          <ExtensionPoint xsi:type="MessageReadCommandSurface">
-            <OfficeTab id="TabDefault2">
+          <!-- <ExtensionPoint xsi:type="MessageComposeCommandSurface">
+            <OfficeTab id="TabDefault">
               <Group id="msgComposeCmdGroup">
                 <Label resid="GroupLabel"/>
                 <Control xsi:type="Button" id="msgComposeInsertGist">
                   <Label resid="TaskpaneButton.Label"/>
                   <Supertip>
-                    <Title resid="TaskpaneButton.Tooltip"/>
+                    <Title resid="TaskpaneButton.Title"/>
                     <Description resid="TaskpaneButton.Tooltip"/>
                   </Supertip>
                   <Icon>
@@ -88,7 +88,7 @@
                 <Control xsi:type="Button" id="msgComposeInsertDefaultGist">
                   <Label resid="FunctionButton.Label"/>
                   <Supertip>
-                    <Title resid="FunctionButton.Tooltip"/>
+                    <Title resid="FunctionButton.Title"/>
                     <Description resid="FunctionButton.Tooltip"/>
                   </Supertip>
                   <Icon>
@@ -102,7 +102,7 @@
                 </Control>
               </Group>
             </OfficeTab>
-          </ExtensionPoint>
+          </ExtensionPoint> -->
         </DesktopFormFactor>
       </Host>
     </Hosts>
@@ -117,17 +117,11 @@
         <bt:Url id="Taskpane.Url" DefaultValue="https://localhost:3000/taskpane.html"/>
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="GroupLabel" DefaultValue=" livedigital meetings"/>
-        <bt:String id="TaskpaneButton.Label" DefaultValue=" livedigital meetings"/>
-        <bt:String id="TaskpaneButton.Tooltip" DefaultValue=" livedigital meetings"/>
-        <bt:String id="FunctionButton.Label" DefaultValue=" FunctionButton label"/>
-        <bt:String id="FunctionButton.Tooltip" DefaultValue=" FunctionButton tooltip"/>
+      <bt:String id="GroupLabel" DefaultValue=" livedigital meetings"/>
+      <bt:String id="TaskpaneButton.Label" DefaultValue=" livedigital meetings"/>
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="TaskpaneButton.Label" DefaultValue=" livedigital meetings"/>
-        <bt:String id="TaskpaneButton.Tooltip" DefaultValue=" livedigital meetings"/>
-        <bt:String id="FunctionButton.Label" DefaultValue=" FunctionButton label"/>
-        <bt:String id="FunctionButton.Tooltip" DefaultValue=" FunctionButton tooltip"/>
+      <bt:String id="TaskpaneButton.Tooltip" DefaultValue=" livedigital meetings"/>
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>

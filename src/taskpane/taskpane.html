@@ -93,6 +93,33 @@
       </div>
     </div>
 
+    <div id="custom-room-block" class="closed">
+      <div class="u-row">
+          <label for="spaces-select">Группы:</label>
+      </div>
+      <div class="u-row">
+        <select id="spaces-select" class="">
+        </select>
+      </div>
+
+      <div class="u-row">
+        <label for="rooms-select">Комнаты:</label>
+      </div>
+      <div class="u-row">
+          <select id="rooms-select" class="">
+          </select>
+      </div>
+      <div class="u-row">
+        <div class="input-field col s12">
+          <button id="choose-in-recent-room-btn" class="ms-Button ">
+            <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span>
+            <span class="ms-Button-label">Выбрать </span>
+            
+          </button>
+        </div>
+      </div>
+    </div>
+
   </main>
   
 
@@ -113,6 +140,16 @@
   <script type="text/javascript" src="../helpers/addin-config.js"></script>
   <script type="text/javascript" src="../helpers/gist-api.js"></script>
   <!-- <script type="text/javascript" src="taskpane.js"></script> -->
+  <script type="text/javascript">
+    function fabricRefresh() {
+      var DropdownHTMLElements = document.querySelectorAll('.ms-Dropdown');
+      for (var i = 0; i < DropdownHTMLElements.length; ++i) {
+        var Dropdown = new fabric['Dropdown'](DropdownHTMLElements[i]);
+      }
+    }
+    // fabricRefresh();
+
+  </script>  
 </body>
 
 </html>
