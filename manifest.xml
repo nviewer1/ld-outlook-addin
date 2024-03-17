@@ -10,7 +10,8 @@
   <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-128.png"/>
   <SupportUrl DefaultValue="https://www.livedigital.space/help"/>
   <AppDomains>
-    <AppDomain>https://www.livedigital.space</AppDomain>
+    <AppDomain>https://ld-outlook-addin.onrender.com</AppDomain>
+    <AppDomain>https://moodhood-api.livedigital.space/v1</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Mailbox"/>

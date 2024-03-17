@@ -175,7 +175,8 @@
         if (!$('#custom-room-block').hasClass('closed')) {
           $('#custom-room-block').addClass('closed')
         } else {
-          let _spaceid = localStorage.getItem("spaceid")
+          let _spaceid = localStorage.getItem("spaceid");
+          let _roomid = localStorage.getItem("roomid");
           $('#spaces-select')[0].innerHTML = "";
           // fabricRefresh();
           $.ajax({
@@ -221,6 +222,9 @@
             }
             console.log("_optionsList", _optionsList, $('#rooms-select')[0]);
             $('#rooms-select')[0].innerHTML = _optionsList;
+            // $('#rooms-select')
+
+
           }).fail(function (error) {
             console.log("err", error);
           });
